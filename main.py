@@ -3,26 +3,20 @@ from datetime import datetime
 from tkinter import messagebox
 from tkinter import ttk
 
-# Saját modul importálása
 import tg_autok
 
 
-# Saját osztály
 class TGAutosApp:
     def __init__(self, root):
         self.root = root
         self.root.title("TG Autókereskedés")
 
-        # Betöltjük az adatokat
         self.cars = tg_autok.tg_load_cars()
 
         self._create_widgets()
         self._populate_car_list()
 
     def _create_widgets(self):
-        # UI elemek létrehozása
-
-        # Stílusok beállítása a színezéshez
         style = ttk.Style()
         style.configure("black.Treenode", foreground="black")
         style.configure("yellow.Treenode", foreground="yellow")
@@ -30,7 +24,6 @@ class TGAutosApp:
         style.configure("red.Treenode", foreground="red")
         style.configure("blue.Treenode", foreground="blue")
 
-        # Autó táblázat
         columns = ("tipus", "ar", "evjarat", "tulajdonosok", "muszaki", "baleset", "forgalomban")
         self.car_treeview = ttk.Treeview(self.root, columns=columns, show="headings")
 
@@ -42,7 +35,6 @@ class TGAutosApp:
         self.car_treeview.heading("baleset", text="Baleset")
         self.car_treeview.heading("forgalomban", text="Állapot")
 
-        # Oszlopok szélességének beállítása
         self.car_treeview.column("tipus", width=100)
         self.car_treeview.column("ar", width=80)
         self.car_treeview.column("evjarat", width=70)
@@ -53,7 +45,6 @@ class TGAutosApp:
 
         self.car_treeview.pack(padx=10, pady=10, fill="both", expand=True)
 
-        # Gombok
         self.button_frame = tk.Frame(self.root)
         self.button_frame.pack(pady=5)
 
@@ -62,9 +53,6 @@ class TGAutosApp:
                                                                                                     padx=5)
 
     def _populate_car_list(self):
-        """
-        Feltölti a Treeview-t az autóadatokkal, a színes jelöléseket is figyelembe véve.
-        """
         self.car_treeview.delete(*self.car_treeview.get_children())
 
         for car in self.cars:
@@ -96,9 +84,6 @@ class TGAutosApp:
             ), tags=tags)
 
     def _delete_selected_car(self):
-        """
-        Eseménykezelő: a kiválasztott autó törlése.
-        """
         selected_item = self.car_treeview.selection()
         if not selected_item:
             messagebox.showwarning("Figyelmeztetés", "Kérlek, válassz ki egy autót a törléshez!")
@@ -109,9 +94,6 @@ class TGAutosApp:
         self._populate_car_list()
 
     def _open_add_window(self):
-        """
-        Ablak megnyitása új autó hozzáadásához.
-        """
         add_window = tk.Toplevel(self.root)
         add_window.title("Új autó hozzáadása")
 
@@ -132,16 +114,12 @@ class TGAutosApp:
             for field, entry in entries.items():
                 new_car_data[field] = entry.get()
 
-            # Adatellenőrzés
             try:
                 new_car_data['ar'] = int(new_car_data['ar'])
                 new_car_data['evjarat'] = int(new_car_data['evjarat'])
                 new_car_data['tulajdonosok'] = int(new_car_data['tulajdonosok'])
-
-                # A hiba itt volt: hiányzó zárójelek
                 new_car_data['baleset'] = new_car_data['baleset'].lower() == 'igen'
                 new_car_data['forgalomban'] = new_car_data['forgalomban'].lower() == 'igen'
-
                 datetime.strptime(new_car_data['muszaki'], '%Y-%m-%d')
             except (ValueError, IndexError):
                 messagebox.showerror("Hiba", "Helytelen adatformátum! Kérlek, ellenőrizd a bevitelt.")
@@ -150,11 +128,15 @@ class TGAutosApp:
             tg_autok.tg_add_car(self.cars, new_car_data)
             self._populate_car_list()
             add_window.destroy()
-# Saját függvény
+
+        tk.Button(add_window, text="Hozzáadás", command=_add_car_to_list).grid(row=len(fields), columnspan=2, pady=10)
+
+
 def TG_start_app():
     root = tk.Tk()
     app = TGAutosApp(root)
     root.mainloop()
+
 
 if __name__ == "__main__":
     TG_start_app()
