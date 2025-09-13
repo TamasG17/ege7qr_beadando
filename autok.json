@@ -1,0 +1,74 @@
+[
+    {
+        "tipus": "fdsdfs",
+        "ar": 3212,
+        "evjarat": 2010,
+        "tulajdonosok": 2,
+        "muszaki": "2025-09-20",
+        "baleset": false,
+        "forgalomban": true
+    },
+    {
+        "tipus": "ocsovs",
+        "ar": 20222,
+        "evjarat": 2011,
+        "tulajdonosok": 3,
+        "muszaki": "2027-10-10",
+        "baleset": false,
+        "forgalomban": false
+    },
+    {
+        "tipus": "ssdfds",
+        "ar": 2344234,
+        "evjarat": 2022,
+        "tulajdonosok": 5,
+        "muszaki": "2027-01-01",
+        "baleset": true,
+        "forgalomban": true
+    },
+    {
+        "tipus": "kkxcvxvx",
+        "ar": 35345435,
+        "evjarat": 2012,
+        "tulajdonosok": 5,
+        "muszaki": "2025-09-20",
+        "baleset": true,
+        "forgalomban": true
+    },
+    {
+        "tipus": "dsff",
+        "ar": 2023,
+        "evjarat": 2023,
+        "tulajdonosok": 1,
+        "muszaki": "2025-10-12",
+        "baleset": true,
+        "forgalomban": false
+    },
+    {
+        "tipus": "dvsdf",
+        "ar": 453,
+        "evjarat": 2022,
+        "tulajdonosok": 2,
+        "muszaki": "2022-10-10",
+        "baleset": true,
+        "forgalomban": true
+    },
+    {
+        "tipus": "oovsvs",
+        "ar": 2133,
+        "evjarat": 2023,
+        "tulajdonosok": 2,
+        "muszaki": "2027-10-10",
+        "baleset": false,
+        "forgalomban": false
+    },
+    {
+        "tipus": "fdfsds",
+        "ar": 21312,
+        "evjarat": 2022,
+        "tulajdonosok": 1,
+        "muszaki": "2027-10-10",
+        "baleset": false,
+        "forgalomban": true
+    }
+]
