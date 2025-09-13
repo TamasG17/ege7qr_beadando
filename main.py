@@ -19,7 +19,6 @@ class TGAutosApp:
     def _create_widgets(self):
         style = ttk.Style()
 
-        # A háttérszíneket állítjuk be, ami sokkal megbízhatóbb
         self.car_treeview = ttk.Treeview(self.root, show="headings")
         self.car_treeview.tag_configure("black_tag", foreground="white", background="black")
         self.car_treeview.tag_configure("goldenrod_tag", foreground="black", background="goldenrod")
@@ -30,13 +29,8 @@ class TGAutosApp:
         columns = ("tipus", "ar", "evjarat", "tulajdonosok", "muszaki", "baleset", "forgalomban")
         self.car_treeview.configure(columns=columns)
 
-        self.car_treeview.heading("tipus", text="Típus")
-        self.car_treeview.heading("ar", text="Ár")
-        self.car_treeview.heading("evjarat", text="Évjárat")
-        self.car_treeview.heading("tulajdonosok", text="Tulajdonosok")
-        self.car_treeview.heading("muszaki", text="Műszaki")
-        self.car_treeview.heading("baleset", text="Baleset")
-        self.car_treeview.heading("forgalomban", text="Állapot")
+        for col in columns:
+            self.car_treeview.heading(col, text=col.capitalize(), command=lambda _col=col: self._sort_column(_col))
 
         self.car_treeview.column("tipus", width=100)
         self.car_treeview.column("ar", width=80)
@@ -54,6 +48,47 @@ class TGAutosApp:
         tk.Button(self.button_frame, text="Törlés", command=self._delete_car_from_list).pack(side=tk.LEFT, padx=5)
         tk.Button(self.button_frame, text="Új autó hozzáadása", command=self._open_add_window).pack(side=tk.LEFT,
                                                                                                     padx=5)
+
+        self._create_legend()
+
+    def _create_legend(self):
+        legend_frame = tk.LabelFrame(self.root, text="Színjelmagyarázat")
+        legend_frame.pack(padx=10, pady=5, fill="x")
+
+        legend_data = [
+            ("Műszaki érv., baleset: nem, forgalomban van:", "black", "white"),
+            ("Műszaki érv., baleset: igen, forgalomban van:", "goldenrod", "black"),
+            ("Műszaki nem érv., baleset: nem, forg. van:", "saddlebrown", "white"),
+            ("Műszaki nem érv., baleset: igen, forg, van:", "red", "white"),
+            ("Nincs forg.:", "blue", "white")
+        ]
+
+        for i, (text, bg, fg) in enumerate(legend_data):
+            label = tk.Label(legend_frame, text=text, bg=bg, fg=fg)
+            label.pack(side=tk.LEFT, padx=5, pady=2)
+
+    def _sort_column(self, col):
+        data = [(self.car_treeview.set(item, col), item) for item in self.car_treeview.get_children("")]
+
+        # Tisztítjuk a mezőnevet, hogy a rendezés helyes legyen
+        if col == "ar":
+            data.sort(key=lambda x: int(x[0].replace(' Ft', '')), reverse=self.car_treeview.heading(col, 'reverse'))
+        elif col in ["evjarat", "tulajdonosok"]:
+            data.sort(key=lambda x: int(x[0]), reverse=self.car_treeview.heading(col, 'reverse'))
+        elif col == "muszaki":
+            data.sort(key=lambda x: datetime.strptime(x[0], '%Y-%m-%d'),
+                      reverse=self.car_treeview.heading(col, 'reverse'))
+        elif col in ["baleset", "forgalomban"]:
+            order = ["Igen", "Forgalomban van"]
+            data.sort(key=lambda x: order.index(x[0]), reverse=self.car_treeview.heading(col, 'reverse'))
+        else:
+            data.sort(reverse=self.car_treeview.heading(col, 'reverse'))
+
+        for index, (val, item) in enumerate(data):
+            self.car_treeview.move(item, "", index)
+
+        # Váltjuk a rendezési irányt a következő kattintáshoz
+        self.car_treeview.heading(col, reverse=not self.car_treeview.heading(col, 'reverse'))
 
     def _populate_car_list(self):
         self.car_treeview.delete(*self.car_treeview.get_children())
