@@ -11,7 +11,7 @@ class TGAutosApp:
         self.root = root
         self.root.title("TG Autókereskedés")
 
-        self.cars = tg_autok.tg_load_cars()
+        self.cars = tg_autok.tg_adatok_betoltese()
         self.sort_directions = {}
 
         self._create_widgets()
@@ -30,8 +30,20 @@ class TGAutosApp:
         columns = ("tipus", "ar", "evjarat", "tulajdonosok", "muszaki", "baleset", "forgalomban")
         self.car_treeview.configure(columns=columns)
 
+        self.car_treeview.heading("tipus", text="Típus", command=lambda _col="tipus": self._sort_column("tipus"))
+        self.car_treeview.heading("ar", text="Ár", command=lambda _col="ar": self._sort_column("ar"))
+        self.car_treeview.heading("evjarat", text="Évjárat",
+                                  command=lambda _col="evjarat": self._sort_column("evjarat"))
+        self.car_treeview.heading("tulajdonosok", text="Tulajdonosok",
+                                  command=lambda _col="tulajdonosok": self._sort_column("tulajdonosok"))
+        self.car_treeview.heading("muszaki", text="Műszaki",
+                                  command=lambda _col="muszaki": self._sort_column("muszaki"))
+        self.car_treeview.heading("baleset", text="Baleset",
+                                  command=lambda _col="baleset": self._sort_column("baleset"))
+        self.car_treeview.heading("forgalomban", text="Forgalomban",
+                                  command=lambda _col="forgalomban": self._sort_column("forgalomban"))
+
         for col in columns:
-            self.car_treeview.heading(col, text=col.capitalize(), command=lambda _col=col: self._sort_column(_col))
             self.sort_directions[col] = False
 
         self.car_treeview.column("tipus", width=100)
