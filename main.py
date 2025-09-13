@@ -9,7 +9,7 @@ import tg_autok
 class TGAutosApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("TG Autókereskedés")
+        self.root.title("TG Autónyilvántartás")
 
         self.cars = tg_autok.tg_adatok_betoltese()
         self.sort_directions = {}
