@@ -70,11 +70,11 @@ class TGAutosApp:
         legend_frame.pack(padx=10, pady=5, fill="x")
 
         legend_data = [
-            ("Műszaki érv., baleset: nem, forgalomban van:", "black", "white"),
-            ("Műszaki érv., baleset: igen, forgalomban van:", "goldenrod", "black"),
-            ("Műszaki nem érv., baleset: nem, forg. van:", "saddlebrown", "white"),
-            ("Műszaki nem érv., baleset: igen, forg, van:", "red", "white"),
-            ("Nincs forg.:", "blue", "white")
+            ("Műsz. érv., baleset: nem, forg. van:", "black", "white"),
+            ("Műsz. érv., baleset: igen, forg. van:", "goldenrod", "black"),
+            ("Műsz. nem érv., baleset: nem, forg. van:", "saddlebrown", "white"),
+            ("Műsz. nem érv., baleset: igen, forg, van:", "red", "white"),
+            ("Nincs forg.", "blue", "white")
         ]
 
         for i, (text, bg, fg) in enumerate(legend_data):
