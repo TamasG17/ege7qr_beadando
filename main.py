@@ -1,7 +1,7 @@
 import tkinter as tk
-from datetime import datetime
 from tkinter import messagebox
 from tkinter import ttk
+from datetime import datetime, timedelta
 
 import tg_autok
 
@@ -18,14 +18,17 @@ class TGAutosApp:
 
     def _create_widgets(self):
         style = ttk.Style()
-        style.configure("black.Treenode", foreground="black")
-        style.configure("yellow.Treenode", foreground="yellow")
-        style.configure("brown.Treenode", foreground="brown")
-        style.configure("red.Treenode", foreground="red")
-        style.configure("blue.Treenode", foreground="blue")
+
+        # A háttérszíneket állítjuk be, ami sokkal megbízhatóbb
+        self.car_treeview = ttk.Treeview(self.root, show="headings")
+        self.car_treeview.tag_configure("black_tag", foreground="white", background="black")
+        self.car_treeview.tag_configure("goldenrod_tag", foreground="black", background="goldenrod")
+        self.car_treeview.tag_configure("saddlebrown_tag", foreground="white", background="saddlebrown")
+        self.car_treeview.tag_configure("red_tag", foreground="white", background="red")
+        self.car_treeview.tag_configure("blue_tag", foreground="white", background="blue")
 
         columns = ("tipus", "ar", "evjarat", "tulajdonosok", "muszaki", "baleset", "forgalomban")
-        self.car_treeview = ttk.Treeview(self.root, columns=columns, show="headings")
+        self.car_treeview.configure(columns=columns)
 
         self.car_treeview.heading("tipus", text="Típus")
         self.car_treeview.heading("ar", text="Ár")
@@ -48,7 +51,7 @@ class TGAutosApp:
         self.button_frame = tk.Frame(self.root)
         self.button_frame.pack(pady=5)
 
-        tk.Button(self.button_frame, text="Törlés", command=self._delete_selected_car).pack(side=tk.LEFT, padx=5)
+        tk.Button(self.button_frame, text="Törlés", command=self._delete_car_from_list).pack(side=tk.LEFT, padx=5)
         tk.Button(self.button_frame, text="Új autó hozzáadása", command=self._open_add_window).pack(side=tk.LEFT,
                                                                                                     padx=5)
 
@@ -58,20 +61,21 @@ class TGAutosApp:
         for car in self.cars:
             tags = ()
 
-            muszaki_ervenyesseg = (datetime.strptime(car['muszaki'], '%Y-%m-%d').date() - datetime.today().date()).days
-            baleset = car['baleset']
-            forgalomban = car['forgalomban']
+            muszaki_ervenyesseg_napokban = (
+                        datetime.strptime(car['muszaki'], '%Y-%m-%d').date() - datetime.today().date()).days
+            baleset_logikai = car['baleset']
+            forgalomban_logikai = car['forgalomban']
 
-            if not forgalomban:
-                tags = ("blue.Treenode",)
-            elif muszaki_ervenyesseg <= 30 and baleset and forgalomban:
-                tags = ("red.Treenode",)
-            elif muszaki_ervenyesseg <= 30 and not baleset and forgalomban:
-                tags = ("brown.Treenode",)
-            elif muszaki_ervenyesseg > 30 and baleset and forgalomban:
-                tags = ("yellow.Treenode",)
-            elif muszaki_ervenyesseg > 30 and not baleset and forgalomban:
-                tags = ("black.Treenode",)
+            if not forgalomban_logikai:
+                tags = ("blue_tag",)
+            elif muszaki_ervenyesseg_napokban <= 30 and baleset_logikai:
+                tags = ("red_tag",)
+            elif muszaki_ervenyesseg_napokban <= 30 and not baleset_logikai:
+                tags = ("saddlebrown_tag",)
+            elif muszaki_ervenyesseg_napokban > 30 and baleset_logikai:
+                tags = ("goldenrod_tag",)
+            elif muszaki_ervenyesseg_napokban > 30 and not baleset_logikai:
+                tags = ("black_tag",)
 
             self.car_treeview.insert("", "end", values=(
                 car['tipus'],
@@ -80,10 +84,10 @@ class TGAutosApp:
                 car['tulajdonosok'],
                 car['muszaki'],
                 'Igen' if car['baleset'] else 'Nem',
-                'Forgalomban van' if car['forgalomban'] else 'Nincs forgalomban'
+                'Forgalomban van' if forgalomban_logikai else 'Nincs forgalomban'
             ), tags=tags)
 
-    def _delete_selected_car(self):
+    def _delete_car_from_list(self):
         selected_item = self.car_treeview.selection()
         if not selected_item:
             messagebox.showwarning("Figyelmeztetés", "Kérlek, válassz ki egy autót a törléshez!")
