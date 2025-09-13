@@ -24,8 +24,11 @@ class TGAutosApp:
 
         # Stílusok beállítása a színezéshez
         style = ttk.Style()
-        style.configure("green.Treenode", foreground="green")
+        style.configure("black.Treenode", foreground="black")
+        style.configure("yellow.Treenode", foreground="yellow")
+        style.configure("brown.Treenode", foreground="brown")
         style.configure("red.Treenode", foreground="red")
+        style.configure("blue.Treenode", foreground="blue")
 
         # Autó táblázat
         columns = ("tipus", "ar", "evjarat", "tulajdonosok", "muszaki", "baleset", "forgalomban")
@@ -65,15 +68,22 @@ class TGAutosApp:
         self.car_treeview.delete(*self.car_treeview.get_children())
 
         for car in self.cars:
-
-            # Színes jelölések
             tags = ()
-            if not car['forgalomban']:
-                tags = ("green.Treenode",)  # Zöld, ha nincs forgalomban
-            else:
-                muszaki_datum = datetime.strptime(car['muszaki'], '%Y-%m-%d').date()
-                if (muszaki_datum - datetime.today().date()).days <= 30:
-                    tags = ("red.Treenode",)  # Piros, ha lejár 30 napon belül
+
+            muszaki_ervenyesseg = (datetime.strptime(car['muszaki'], '%Y-%m-%d').date() - datetime.today().date()).days
+            baleset = car['baleset']
+            forgalomban = car['forgalomban']
+
+            if not forgalomban:
+                tags = ("blue.Treenode",)
+            elif muszaki_ervenyesseg <= 30 and baleset and forgalomban:
+                tags = ("red.Treenode",)
+            elif muszaki_ervenyesseg <= 30 and not baleset and forgalomban:
+                tags = ("brown.Treenode",)
+            elif muszaki_ervenyesseg > 30 and baleset and forgalomban:
+                tags = ("yellow.Treenode",)
+            elif muszaki_ervenyesseg > 30 and not baleset and forgalomban:
+                tags = ("black.Treenode",)
 
             self.car_treeview.insert("", "end", values=(
                 car['tipus'],
@@ -127,8 +137,11 @@ class TGAutosApp:
                 new_car_data['ar'] = int(new_car_data['ar'])
                 new_car_data['evjarat'] = int(new_car_data['evjarat'])
                 new_car_data['tulajdonosok'] = int(new_car_data['tulajdonosok'])
+
+                # A hiba itt volt: hiányzó zárójelek
                 new_car_data['baleset'] = new_car_data['baleset'].lower() == 'igen'
                 new_car_data['forgalomban'] = new_car_data['forgalomban'].lower() == 'igen'
+
                 datetime.strptime(new_car_data['muszaki'], '%Y-%m-%d')
             except (ValueError, IndexError):
                 messagebox.showerror("Hiba", "Helytelen adatformátum! Kérlek, ellenőrizd a bevitelt.")
@@ -137,16 +150,3 @@ class TGAutosApp:
             tg_autok.tg_add_car(self.cars, new_car_data)
             self._populate_car_list()
             add_window.destroy()
-
-        tk.Button(add_window, text="Hozzáadás", command=_add_car_to_list).grid(row=len(fields), columnspan=2, pady=10)
-
-
-# Saját függvény
-def TG_start_app():
-    root = tk.Tk()
-    app = TGAutosApp(root)
-    root.mainloop()
-
-
-if __name__ == "__main__":
-    TG_start_app()
