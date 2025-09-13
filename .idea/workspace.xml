@@ -66,6 +66,7 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Felhasználó\PycharmProjects\ege7qr_beadando\.venv" />
+      <recent name="C:\Users\Felhasználó\PycharmProjects\ege7qr_beadando" />
     </key>
   </component>
   <component name="RunManager">
@@ -117,7 +118,8 @@
       <workItem from="1757777125218" duration="449000" />
       <workItem from="1757777593532" duration="317000" />
       <workItem from="1757777925774" duration="3241000" />
-      <workItem from="1757781222661" duration="4173000" />
+      <workItem from="1757781222661" duration="4378000" />
+      <workItem from="1757786393663" duration="337000" />
     </task>
     <task id="LOCAL-00001" summary="létrehozás">
       <option name="closed" value="true" />
@@ -247,7 +249,15 @@
       <option name="project" value="LOCAL" />
       <updated>1757785166564</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="version_07&#10;Final">
+      <option name="closed" value="true" />
+      <created>1757786010912</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1757786010912</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -269,6 +279,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="version_07&#10;Final" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ege7qr_beadando$main.coverage" NAME="main Coverage Results" MODIFIED="1757785072257" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ege7qr_beadando$main.coverage" NAME="main Coverage Results" MODIFIED="1757786409633" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
