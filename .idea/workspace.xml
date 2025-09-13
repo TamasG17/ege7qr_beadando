@@ -119,8 +119,7 @@
       <workItem from="1757777593532" duration="317000" />
       <workItem from="1757777925774" duration="3241000" />
       <workItem from="1757781222661" duration="4378000" />
-      <workItem from="1757786393663" duration="761000" />
-      <workItem from="1757787179403" duration="643000" />
+      <workItem from="1757786393663" duration="337000" />
     </task>
     <task id="LOCAL-00001" summary="létrehozás">
       <option name="closed" value="true" />
@@ -258,31 +257,7 @@
       <option name="project" value="LOCAL" />
       <updated>1757786010912</updated>
     </task>
-    <task id="LOCAL-00018" summary="version_07&#10;Final">
-      <option name="closed" value="true" />
-      <created>1757786923496</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1757786923496</updated>
-    </task>
-    <task id="LOCAL-00019" summary="version_07&#10;Final">
-      <option name="closed" value="true" />
-      <created>1757787119002</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1757787119002</updated>
-    </task>
-    <task id="LOCAL-00020" summary="version_07&#10;Final">
-      <option name="closed" value="true" />
-      <created>1757787140915</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1757787140915</updated>
-    </task>
-    <option name="localTasksCounter" value="21" />
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
