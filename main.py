@@ -150,3 +150,11 @@ class TGAutosApp:
             tg_autok.tg_add_car(self.cars, new_car_data)
             self._populate_car_list()
             add_window.destroy()
+# Saját függvény
+def TG_start_app():
+    root = tk.Tk()
+    app = TGAutosApp(root)
+    root.mainloop()
+
+if __name__ == "__main__":
+    TG_start_app()
