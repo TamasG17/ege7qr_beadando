@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4722a2d1-4940-411b-8942-7b5781a61721" name="Changes" comment="újrakezdés">
-      <change beforePath="$PROJECT_DIR$/.idea/ege7qr_beadando.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ege7qr_beadando.iml" afterDir="false" />
+    <list default="true" id="4722a2d1-4940-411b-8942-7b5781a61721" name="Changes" comment="version_01">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +49,7 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python.main.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
@@ -116,6 +116,8 @@
       <updated>1757773067432</updated>
       <workItem from="1757773068497" duration="2806000" />
       <workItem from="1757777125218" duration="449000" />
+      <workItem from="1757777593532" duration="317000" />
+      <workItem from="1757777925774" duration="640000" />
     </task>
     <task id="LOCAL-00001" summary="létrehozás">
       <option name="closed" value="true" />
@@ -149,7 +151,15 @@
       <option name="project" value="LOCAL" />
       <updated>1757777208392</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="version_01">
+      <option name="closed" value="true" />
+      <created>1757777651364</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1757777651364</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -159,9 +169,10 @@
     <MESSAGE value="létrehozás" />
     <MESSAGE value="kiindulási pont" />
     <MESSAGE value="újrakezdés" />
-    <option name="LAST_COMMIT_MESSAGE" value="újrakezdés" />
+    <MESSAGE value="version_01" />
+    <option name="LAST_COMMIT_MESSAGE" value="version_01" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ege7qr_beadando$main.coverage" NAME="main Coverage Results" MODIFIED="1757776923620" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ege7qr_beadando$main.coverage" NAME="main Coverage Results" MODIFIED="1757777931184" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

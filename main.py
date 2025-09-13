@@ -1,6 +1,7 @@
 import tkinter as tk
+from datetime import datetime
 from tkinter import messagebox
-from datetime import datetime, timedelta
+from tkinter import ttk
 
 # Saját modul importálása
 import tg_autok
@@ -21,20 +22,33 @@ class TGAutosApp:
     def _create_widgets(self):
         # UI elemek létrehozása
 
-        # Autó lista
-        self.car_list_frame = tk.Frame(self.root)
-        self.car_list_frame.pack(pady=10)
+        # Stílusok beállítása a színezéshez
+        style = ttk.Style()
+        style.configure("green.Treenode", foreground="green")
+        style.configure("red.Treenode", foreground="red")
 
-        tk.Label(self.car_list_frame, text="Autók listája:", font=("Arial", 14, "bold")).pack()
+        # Autó táblázat
+        columns = ("tipus", "ar", "evjarat", "tulajdonosok", "muszaki", "baleset", "forgalomban")
+        self.car_treeview = ttk.Treeview(self.root, columns=columns, show="headings")
 
-        self.car_listbox = tk.Listbox(self.car_list_frame, width=80, height=15)
-        self.car_listbox.pack(side=tk.LEFT, fill=tk.Y)
+        self.car_treeview.heading("tipus", text="Típus")
+        self.car_treeview.heading("ar", text="Ár")
+        self.car_treeview.heading("evjarat", text="Évjárat")
+        self.car_treeview.heading("tulajdonosok", text="Tulajdonosok")
+        self.car_treeview.heading("muszaki", text="Műszaki")
+        self.car_treeview.heading("baleset", text="Baleset")
+        self.car_treeview.heading("forgalomban", text="Állapot")
 
-        scrollbar = tk.Scrollbar(self.car_list_frame, orient=tk.VERTICAL)
-        scrollbar.config(command=self.car_listbox.yview)
-        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        # Oszlopok szélességének beállítása
+        self.car_treeview.column("tipus", width=100)
+        self.car_treeview.column("ar", width=80)
+        self.car_treeview.column("evjarat", width=70)
+        self.car_treeview.column("tulajdonosok", width=90)
+        self.car_treeview.column("muszaki", width=90)
+        self.car_treeview.column("baleset", width=70)
+        self.car_treeview.column("forgalomban", width=120)
 
-        self.car_listbox.config(yscrollcommand=scrollbar.set)
+        self.car_treeview.pack(padx=10, pady=10, fill="both", expand=True)
 
         # Gombok
         self.button_frame = tk.Frame(self.root)
@@ -46,36 +60,43 @@ class TGAutosApp:
 
     def _populate_car_list(self):
         """
-        Feltölti a listbox-ot az autóadatokkal, a színes jelöléseket is figyelembe véve.
+        Feltölti a Treeview-t az autóadatokkal, a színes jelöléseket is figyelembe véve.
         """
-        self.car_listbox.delete(0, tk.END)
-        for i, car in enumerate(self.cars):
-            status = "Forgalomban van" if car['forgalomban'] else "Nincs forgalomban"
-            display_text = (
-                f"{car['tipus']} ({car['evjarat']}) - Tulajdonos: {car['tulajdonosok']}, "
-                f"Műszaki: {car['muszaki']}, Baleset: {'Igen' if car['baleset'] else 'Nem'}, "
-                f"Állapot: {status}"
-            )
-            self.car_listbox.insert(tk.END, display_text)
+        self.car_treeview.delete(*self.car_treeview.get_children())
+
+        for car in self.cars:
 
             # Színes jelölések
+            tags = ()
             if not car['forgalomban']:
-                self.car_listbox.itemconfig(tk.END, {'fg': 'green'})  # Zöld, ha nincs forgalomban
+                tags = ("green.Treenode",)  # Zöld, ha nincs forgalomban
             else:
                 muszaki_datum = datetime.strptime(car['muszaki'], '%Y-%m-%d').date()
                 if (muszaki_datum - datetime.today().date()).days <= 30:
-                    self.car_listbox.itemconfig(tk.END, {'fg': 'red'})  # Piros, ha lejár 30 napon belül
+                    tags = ("red.Treenode",)  # Piros, ha lejár 30 napon belül
+
+            self.car_treeview.insert("", "end", values=(
+                car['tipus'],
+                f"{car['ar']} Ft",
+                car['evjarat'],
+                car['tulajdonosok'],
+                car['muszaki'],
+                'Igen' if car['baleset'] else 'Nem',
+                'Forgalomban van' if car['forgalomban'] else 'Nincs forgalomban'
+            ), tags=tags)
 
     def _delete_selected_car(self):
         """
         Eseménykezelő: a kiválasztott autó törlése.
         """
-        try:
-            index = self.car_listbox.curselection()[0]
-            tg_autok.tg_delete_car(self.cars, index)
-            self._populate_car_list()
-        except IndexError:
+        selected_item = self.car_treeview.selection()
+        if not selected_item:
             messagebox.showwarning("Figyelmeztetés", "Kérlek, válassz ki egy autót a törléshez!")
+            return
+
+        index = self.car_treeview.index(selected_item)
+        tg_autok.tg_delete_car(self.cars, index)
+        self._populate_car_list()
 
     def _open_add_window(self):
         """
@@ -85,7 +106,7 @@ class TGAutosApp:
         add_window.title("Új autó hozzáadása")
 
         fields = [
-            ("Típus:", 'tipus'), ("Évjárat:", 'evjarat'), ("Tulajdonosok száma:", 'tulajdonosok'),
+            ("Típus:", 'tipus'), ("Ár:", 'ar'), ("Évjárat:", 'evjarat'), ("Tulajdonosok száma:", 'tulajdonosok'),
             ("Műszaki érvényesség (ÉÉÉÉ-HH-NN):", 'muszaki'), ("Baleset volt (Igen/Nem):", 'baleset'),
             ("Forgalomban van (Igen/Nem):", 'forgalomban')
         ]
@@ -103,6 +124,7 @@ class TGAutosApp:
 
             # Adatellenőrzés
             try:
+                new_car_data['ar'] = int(new_car_data['ar'])
                 new_car_data['evjarat'] = int(new_car_data['evjarat'])
                 new_car_data['tulajdonosok'] = int(new_car_data['tulajdonosok'])
                 new_car_data['baleset'] = new_car_data['baleset'].lower() == 'igen'
